@@ -1,0 +1,5 @@
+Write a compiler for J0, a fragment of Java / C#. You can choose to implement the compiler in C, Java or C#. The generated code has to be for LLVM or .NET. For .NET, it is recommended that you use the mono implementation. You can either generate textual output that is passed through the assembler (ilasm in mono), or you can call an API for directly generating code. You can use tools for generation parts of the compiler.
+
+Extend the compiler as well.
+
+<syntax included> 

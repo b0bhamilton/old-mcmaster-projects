@@ -1,0 +1,32 @@
+selector = {"." ident | "[" expression "]"}.
+factor = ident selector | integer | "(" expression ")" | "not" factor.
+term = factor {("*" | "div" | "mod" | "and") factor}.
+SimpleExpression = ["+" | "-"] term {("+" | "-" | "or") term}.
+expression = SimpleExpression
+  {("=" | "<>" | "<" | "<=" | ">" | ">=") SimpleExpression}.
+
+assignment = ident selector ":=" expression.
+ActualParameters = "(" [expression {"," expression}] ")".
+ProcedureCall = ident selector [ActualParameters].
+CompoundStatement = "begin" statement {";" statement} "end".
+IfStatement = "if" expression "then" Statement ["else" Statement].
+WhileStatement = "while" expression "do" Statement.
+Statement = [assignment | ProcedureCall | CompoundStatement |
+  IfStatement | WhileStatement].
+
+IdentList = ident {"," ident}.
+ArrayType = "array" "[" expression ".." expression "]" "of" type.
+FieldList = [IdentList ":" type].
+RecordType = "record" FieldList {";" FieldList} "end".
+type = ident | ArrayType | RecordType.
+FPSection = ["var"] IdentList ":" type.
+FormalParameters = "(" [FPSection {";" FPSection}] ")".
+ProcedureDeclaration = "procedure" ident [FormalParameters] ";"
+  declarations CompoundStatement.
+declarations = ["const" {ident "=" expression ";"}]
+  ["type" {ident "=" type ";"}]
+  ["var" {IdentList ":" type ";"}]
+  {ProcedureDeclaration ";"}.
+
+program = "program" ident ["(" ident {"," ident} ")"] ";"
+  declarations CompoundStatement.

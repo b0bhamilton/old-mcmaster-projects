@@ -1,0 +1,20 @@
+class Test02 
+{
+    public int m1;
+    private static int m2;
+
+    public static void F()
+    {
+        m2 = 999;
+        print(m2);
+        //m1 = 777;
+    }
+
+    public static void Main() 
+    {
+        int[] a;
+        a = new int[10];
+        print(777+1);
+        F();
+    }
+}

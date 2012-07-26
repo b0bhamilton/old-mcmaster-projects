@@ -1,0 +1,332 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red27\green43\blue142;\red0\green0\blue0;
+\red109\green109\blue109;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat2\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid101\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat3\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid201\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat4\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid301\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat5\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid401\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid5}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat6\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid501\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid6}
+{\list\listtemplateid7\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat7\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid601\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid7}
+{\list\listtemplateid8\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat8\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid701\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid8}
+{\list\listtemplateid9\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat9\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid801\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid9}
+{\list\listtemplateid10\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat10\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid901\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid10}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}{\listoverride\listid7\listoverridecount0\ls7}{\listoverride\listid8\listoverridecount0\ls8}{\listoverride\listid9\listoverridecount0\ls9}{\listoverride\listid10\listoverridecount0\ls10}}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sa320
+
+\f0\b\fs32 \cf0 \cb2 Halftoning and Image Processing
+\b0 \
+The objective of this TME is to help you to understand colour from the perspective of computer hardware and software. The vehicle for learning this will be the construction of a
+\i halftone generator
+\i0 , a computer program that reads in an RGB specificiation of an image, and transforms the image into several forms; including "true" grayscale, and both black-and-white and colour clustered or dispersed dot halftones.\
+Program 9 (Unit 8, Section 2) contains skeletal code that uses OpenGL's implementation of pixmaps, as does the assignment on anti-aliasing. However, the codes were a little too simple because the dimensions of the pixmap could be declared at compile time and ordinary C++ array subscripting could be used. As well, the dimensions of the pixmap conveniently fit all the hardware and software constraints. It is necessary to understand some hardware/software details for the program to process an image of any dimension; specifically, OpenGL pixmaps are aligned on 4 byte boundaries. This will be explained in more detail later.\
+A BMP file called {\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/Impressionists09.bmp"}}{\fldrslt \cf3 Impressionists09.bmp}} is provided for this assignment.\
+Your first task will be to compile a BMP 'viewer' based on the codes provided. However, there are three issues to take careful note of, because they will affect all of the rest of the code you are required to write. The first is that OpenGL stores its pixmaps "upside down". The code below reads the "top" row of the image into the "bottom" row of the OpenGL image, and so on. Although the image was chosen to be pleasant to look at upside down, this is only for viewing comfort. Of course, OpenGL doesn't "know" whether the image is upside down or not, and you can write code as is convenient.\
+The second issue is that the image is pointed to by a pointer of type GLubyte. This is required by glDrawPixels. Since the dimensions of the image are not known until runtime, you have to do your own subscript arithmetic when processing the image. Generally, if an array ARR is of width W and height H, the contents of location normally specified by ARR[i][j] is given by\
+\pard\pardeftab720
+
+\f1\fs24 \cf0  *(ARR + i*W + j)\
+\pard\pardeftab720
+
+\f0\fs32 \cf0 This becomes a little more complicated since you also have to contend with RGB values. \
+\
+The third issue, which makes matters even more complicated, is that 
+\i glDrawPixels()
+\i0 assumes images are aligned along 4 byte boundaries. That is, after 
+\i glDrawPixels
+\i0  reads W pixels, it advances its pointer to the next 4 byte boundary. If you don't take this into account when reading in the image, consecutive lines of your image may be misaligned by 1, 2, or 3 pixels. Pay attention to how the variables 
+\i PixmapWidth
+\i0  and
+\i AdjustedPixmapWidth
+\i0  are used to take care of this problem.\
+\pard\pardeftab720\sa320
+\cf0 For the purposes of this assignment (and the convenience of the marker), assume that the file "Impressionists09.bmp" exists in the project directory. Hard code your program to read from this directory. When your program starts, it should display this image. This program stores the image as a sequence of GLubytes in the 0 to 255 range. If you wish to experiment with other options, please consult your OpenGL documentation.\
+The program makes use of the 
+\i glutMouseFunc
+\i0  function procedure call that links a function to a particular mouse click. The called function 'mouseFunc' displays a list of choices of transformations to apply to the image in Impressionists09.ppm. You must implement code for each mouse click. Each transformation is described below.\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls1\ilvl0\cf0 {\listtext	1.	}Original ColourThis selection should restore the image back to its original form.\uc0\u8232 The code provided maintains two copies of the image. One is kept as an "original" and the other is displayed.\u8232 All you need to do for this option is to copy the original back into the display copy.\u8232 This transformation is quite easy; however, some transformations are quite time consuming, so your code should take care to remember the current transformation, and not apply it if it is not needed.\u8232 {\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image11_Original.JPG"}}{\fldrslt \cf3 Image 11}}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls2\ilvl0\cf0 {\listtext	2.	}GrayscaleThis option should convert the input image to a gray scale image. You should ensure that you have the correct luminosity; check the text for a description of how to do this. To get a gray scale image, simply set the R, G, and B pixels to the calculated luminosity value, which should be between 0 and 255.\uc0\u8232 For all of the black and white dithering techniques, you should compute the grayscale using this luminosity calculation.\u8232 {\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image12_Grayscale.JPG"}}{\fldrslt \cf3 Image 12}}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls3\ilvl0\cf0 {\listtext	3.	}Ordered Dither 1Your first ordered dither should use the 45 degree threshold matrix that gives the dot pattern shown below:\uc0\u8232 
+\f1  
+\f2\fs24 
+\f1\fs32 \uc0\u8232 
+\f0 This gives 19 levels of gray.{\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image13_OrderDither1.JPG"}}{\fldrslt \cf3 Image 13}}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls4\ilvl0\cf0 {\listtext	4.	}Ordered Dither 2The following dot pattern gives 33 levels of gray.\
+{\listtext	5.	}
+\f2\fs24 
+\f0\fs32 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa320
+\ls4\ilvl0\cf0 {\listtext	6.	}Use it as well.\uc0\u8232 {\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image14_OrderDither2.JPG"}}{\fldrslt \cf3 Image 14}}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls5\ilvl0\cf0 {\listtext	5.	}Error diffusion.The following may be helpful: convert the image to a floating point representation, 2 lines at a time. (Make sure that the luminosity is set properly.) You can create pointers to buffers of floats holding the two current lines. Apply the error diffusion algorithm to the first line and propagate the error to the neighbouring pixels in the current and next line. Then copy the first line to the buffer holding the output image. It should be trivial to manipulate the pointers so that the second line becomes the first, and new data is read into the second. Note that a lot of logic gets applied to each pixel, so don't be surprised if this is much slower than the other algorithms.\uc0\u8232 {\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image15_ErrorDiffusion.JPG"}}{\fldrslt \cf3 Image 15}}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls6\ilvl0\cf0 {\listtext	6.	}Line HalftoneThis should follow the same thresholding logic as the ordered dithers above. You may have noticed this kind of halftoning in special effects.\cb1 \
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx1080
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx3240
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5400
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth80\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx7560
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	7.	}36\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	8.	}34\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	9.	}32\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	10.	}31\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	11.	}33\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	12.	}35\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	13.	}|\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	14.	}36\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx1080
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx3240
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5400
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth80\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx7560
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	15.	}24\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	16.	}22\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	17.	}20\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	18.	}19\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	19.	}21\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	20.	}23\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	21.	}|\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	22.	}24\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx1080
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx3240
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5400
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth80\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx7560
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	23.	}12\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	24.	}10\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	25.	}8\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	26.	}7\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	27.	}9\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	28.	}11\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	29.	}|\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	30.	}12\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx1080
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx3240
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5400
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth80\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx7560
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	31.	}6\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	32.	}4\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	33.	}2\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	34.	}1\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	35.	}3\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	36.	}5\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	37.	}|\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	38.	}6\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx1080
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx3240
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5400
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth80\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx7560
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	39.	}18\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	40.	}16\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	41.	}14\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	42.	}13\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	43.	}15\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	44.	}17\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	45.	}|\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	46.	}18\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx1080
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx3240
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5400
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth80\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx7560
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	47.	}30\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	48.	}28\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	49.	}26\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	50.	}25\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	51.	}27\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	52.	}29\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	53.	}|\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls6\ilvl0\cf0 {\listtext	54.	}30\cell \lastrow\row
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa320
+\ls6\ilvl0\cf3 \cb2 {\listtext	55.	}{\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image16_LineHalftone.JPG"}}{\fldrslt Image 16}}\cf0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls7\ilvl0\cf0 {\listtext	7.	}Colour error diffusionThis is "exactly the same, but different" to the error diffusion algorithm. Whereas B&W error diffusion paints the output pixel either black or white, depending which is closest to the current luminosity, colour error diffusion paints each output pixel by selecting a colour from a small palette that closest to the image's current "true" colour.\uc0\u8232 A few questions arise. One is, what colours should be in the palette of primaries? Try using both RGB plus black and white, and CMY plus black and white. You may be surprised at the result. Of course, many other sets of primaries are possible.\u8232 The next question is, how do you decide which primary is nearest to, say, brown? Recall that you can think of colours as existing in a 3 space, and as such, you can compute the distances between them using the ordinary distance formula you learned in linear algebra.\u8232 Writing this code requires care because, not only are you implementing the subscript arithmetic, you are keeping track of three sets of colours. However, apart from taking care, your code should parallel your black and white error diffusion code.\u8232 {\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image17_ColorErrorDiffusion.JPG"}}{\fldrslt \cf3 Image 17}}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls8\ilvl0\cf0 {\listtext	8.	}Dispersed DotThe following matrix defines a dispersed dot dither. Whereas the thresholds of the ordered dithers are organized so that dots tend to "clump", the following threshold matrix disperses nearby threshold values. However, it is still an ordered dither.\cb1 \
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	9.	}2\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	10.	}16\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	11.	}3\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	12.	}13\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	13.	}10\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	14.	}6\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	15.	}11\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	16.	}7\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	17.	}4\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	18.	}14\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	19.	}1\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	20.	}15\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt60 \clpadl60 \clpadb60 \clpadr60 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	21.	}12\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	22.	}8\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	23.	}9\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls8\ilvl0\cf0 {\listtext	24.	}5\cell \lastrow\row
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa320
+\ls8\ilvl0\cf3 \cb2 {\listtext	25.	}{\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image18_DispersedDot.JPG"}}{\fldrslt Image 18}}\cf0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls9\ilvl0\cf0 {\listtext	9.	}Edge sharpeningTV and movie detectives frequently re-focus out of focus photographs (often images produced from massive magnification of a tiny part of the background). In the 60s, this was done by focussing on different parts of the image (!); in the 90s, computers are used as well.\uc0\u8232 Although you ought to be able to convince yourself that Hollywood takes liberties with the state of the art in digital image processing, significant improvements are possible, both with respect to sharpening and smoothing an image.\u8232 Because sharpening is not covered in either the text or the course outline, the description of the method will be kept simple. Keep in mind that many variations of the technique exist.\u8232 To sharpen the image, first compute a transformation of the image such that each pixel in the transformation is the weighted average of the 3x3 grid centred about the corresponding pixel of the input image.\u8232 The weights are given by the following matrix:\cb1 \
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth800\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2880
+\clvertalc \clshdrawnil \clwWidth900\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5760
+\clvertalc \clshdrawnil \clwWidth800\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	10.	}0.125\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	11.	}0.125\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	12.	}0.125\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth800\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2880
+\clvertalc \clshdrawnil \clwWidth900\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5760
+\clvertalc \clshdrawnil \clwWidth800\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	13.	}0.125\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	14.	}-1.000\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	15.	}0.125\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth800\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx2880
+\clvertalc \clshdrawnil \clwWidth900\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx5760
+\clvertalc \clshdrawnil \clwWidth800\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt40 \clpadl40 \clpadb40 \clpadr40 \gaph\cellx8640
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	16.	}0.125\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	17.	}0.125\cell 
+\pard\intbl\itap1\tx220\tx720\pardeftab720\li720\fi-720\qr
+\ls9\ilvl0\cf0 {\listtext	18.	}0.125\cell \lastrow\row
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa320
+\ls9\ilvl0\cf0 \cb2 {\listtext	19.	}Note that if the input image has a low contrast at a particular point, the corresponding output pixel will be 0. However, if the input is a light pixel (with intensity 175) surrounded by dark (75), the output will be -100. If the input is a dark pixel surrounded by light, the output will be +100. The sharpened image is then computed by subtracting a multiple (use 2) of this transformation from the input image. In the examples just discussed, the light pixel will be brightened and the dark pixel darkened. Do not worry too much about why this works, but take note of the effect.\uc0\u8232 {\field{\*\fldinst{HYPERLINK "http://scis.lms.athabascau.ca/file.php/162/tme_files/tme3/image19_EdgeSharpening.JPG"}}{\fldrslt \cf3 Image 19}}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls10\ilvl0\cf0 {\listtext	10.	}Surprise the tutor! \uc0\u8232 \u8232 If you can't think of anything, set the threshold randomly for each pixel. This will simulate old photographs. (Then add the Loch Ness Monster to the water!) It is also possible to choose thresholds so that they define a recognizable shape at different intensities. One year, a student used clustered happy-faces.\
+}

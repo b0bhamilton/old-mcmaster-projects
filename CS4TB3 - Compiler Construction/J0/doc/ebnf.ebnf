@@ -1,0 +1,8 @@
+syntax     = {production}.
+production = identifier "=" expression ".".
+expression = term {"|" term}.
+term       = factor {factor}.
+factor     = identifier | string |
+            "(" expression ")" |
+            "[" expression "]" |
+            "{" expression "}".

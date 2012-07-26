@@ -1,0 +1,5 @@
+C:\Zouev\J0\bin\Debug\J0.exe
+C:\Zouev\J0\bin\Debug\J0.pdb
+C:\Zouev\J0\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Zouev\J0\obj\x86\Debug\J0.exe
+C:\Zouev\J0\obj\x86\Debug\J0.pdb
